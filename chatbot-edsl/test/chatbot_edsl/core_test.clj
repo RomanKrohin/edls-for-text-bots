@@ -1,6 +1,6 @@
 (ns chatbot-edsl.core-test
-  (:require [clojure.test :refer :all]
-            [chatbot-edsl.core :refer :all]))
+  (:require [clojure.test :refer [deftest is testing]]
+            [chatbot-edsl.core :refer [defdialogue handle-context transition add-dialogue log-user-out log-user-in check-condition get-dialogue perform-action user-logged-in?]]))
 
 (deftest test-add-dialogue
   (testing "Adding a dialogue"

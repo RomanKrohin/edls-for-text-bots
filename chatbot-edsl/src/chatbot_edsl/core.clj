@@ -1,6 +1,5 @@
 (ns chatbot-edsl.core
-  (:require [clojure.string :as str]
-            [clojure.tools.logging :as log]))
+  (:require [clojure.tools.logging :as log]))
 
 (defrecord Dialogue [id prompt responses])
 
