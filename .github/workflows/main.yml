@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+
+    - name: Install Clojure tools
+      run: |
+        curl -O https://download.clojure.org/install/linux-install-1.11.1.1113.sh
+        chmod +x linux-install-1.11.1.1113.sh
+        sudo ./linux-install-1.11.1.1113.sh
+
+    - name: Install Leiningen
+      run: |
+        curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+        chmod +x lein
+        sudo mv lein /usr/local/bin/
+
+    - name: Install clj-kondo
+      run: |
+        curl -sLO https://raw.githubusercontent.com/clj-kondo/clj-kondo/master/script/install-clj-kondo
+        chmod +x install-clj-kondo
+        sudo ./install-clj-kondo
+
+
+    - name: Run tests
+      run: cd chatbot-edsl && lein test
+
+    - name: Run clj-kondo
+      run: cd chatbot-edsl && lein clj-kondo
+
+    - name: Run cljfmt
+      run: cd chatbot-edsl && lein cljfmt fix
